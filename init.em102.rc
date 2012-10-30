@@ -36,11 +36,6 @@ on post-fs-data
 	setprop wifi.wapi.supported true
 	setprop wifi.eng.enabled false
 
-	mkdir /data/misc/wifi 0770 wifi wifi
-	mkdir /data/misc/wifi/sockets 0770 wifi wifi
-	mkdir /data/misc/dhcp 0770 dhcp dhcp
-	chown dhcp dhcp /data/misc/dhcp
-
 	setprop vold.post_fs_data_done 1
 
 on boot
