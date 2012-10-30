@@ -1,0 +1,3 @@
+dev_mount nand /storage/sdcard0 auto /devices/virtual/block/ndda
+dev_mount sdcard /storage/sdcard1 auto /devices/platform/tcc-sdhc0.0/mmc_host/mmc0
+dev_mount usbdisk /storage/usbdisk auto /devices/platform/dwc_otg.0

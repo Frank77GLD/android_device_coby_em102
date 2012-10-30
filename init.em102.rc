@@ -1,0 +1,112 @@
+import init.em102.usb.rc
+
+on early-init
+
+	insmod /lib/modules/tcc_mtd.ko
+
+	# for backwards compatibility
+	export EXTERNAL_STORAGE /storage/sdcard0
+
+	mkdir /storage 0050 system sdcard_r
+	mkdir /storage/sdcard0 0000 system system
+	mkdir /storage/sdcard1 0000 system system
+	symlink /storage/sdcard0 /sdcard
+	symlink /storage/sdcard0 /mnt/sdcard
+
+	# create directory for mounting usb drives
+	mkdir /storage/usbdisk 0666 system system
+	symlink /storage/usbdisk /mnt/usbdisk
+	symlink /mnt/usbdisk /usbdisk
+
+	insmod /lib/modules/jbd2.ko
+	insmod /lib/modules/ext4.ko
+	insmod /lib/modules/ump.ko ump_memory_size=0x3000000
+	insmod /lib/modules/mali.ko mali_memory_size=0x12C00000
+
+on fs
+    mount_all /fstab.em102
+
+on post-fs-data
+	# Atheros
+	setprop wifi.supp_delay_para 800
+	setprop wifi.supplicant_scan_interval 10 
+	setprop wifi.wapi.supported true
+	setprop wifi.eng.enabled false
+
+	mkdir /data/misc/wifi 0770 wifi wifi
+	mkdir /data/misc/wifi/sockets 0770 wifi wifi
+	mkdir /data/misc/dhcp 0770 dhcp dhcp
+	chown dhcp dhcp /data/misc/dhcp
+
+	setprop vold.post_fs_data_done 1
+
+on boot
+	insmod /lib/modules/tcc_nand.ko
+	insmod /lib/modules/ufsd.ko
+	insmod /system/lib/modules/viqe.ko
+	insmod /lib/modules/ehci-hcd.ko
+	insmod /lib/modules/ohci-hcd.ko
+
+	mount debugfs nodev /sys/kernel/debug
+	mount usbfs nodev /proc/bus/usb
+
+
+#	setprop ro.kernel.android.gps tcc-uart5
+
+	# Collect ramconsole data
+	copy /proc/last_kmsg /data/dontpanic/last_kmsg
+	chown root log /data/dontpanic/last_kmsg
+	chmod 0640 /data/dontpanic/last_kmsg
+
+service hwprops /system/bin/hwprops
+	class main
+	user root
+	disabled
+	oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant -Dawext -iwlan0 -c /data/misc/wifi/wpa_supplicant.conf
+        #   we will start as root and wpa_supplicant will switch to user wifi
+        #   after setting up the capabilities required for WEXT
+        #   user wifi
+        #   group wifi inet keystore
+        class main
+        socket wpa_wlan0 dgram 660 wifi wifi
+        disabled
+        oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
+	class main
+	disabled
+	oneshot
+
+service iprenew_wlan0 /system/bin/dhcpcd -n
+	class main
+	disabled
+	oneshot
+
+service pppd_gprs /system/bin/pppd /dev/ttyUSB0 115200 nocrtscts usepeerdns debug nodetach ipcp-accept-local ipcp-accept-remote defaultroute
+	user root
+	group radio cache inet misc
+	disabled
+	oneshot
+
+service threeg /system/bin/threeg on
+	class main
+	oneshot
+
+on property:dev.bootcomplete=1
+	write /dev/clockctrl 1
+
+	# Define TCC media parser sequential mode
+	setprop tcc.parser.sequential 1
+
+	# Define TCC internal subtitle
+	setprop tcc.internal.subtitle	1
+
+	# Define TCC video vsync mode
+	setprop tcc.video.vsync.support         0
+	# Define TCC video deinteralce mode, this is a sub item of vsync mode, so you have to enable vsync mode first to use deinterlace mode.
+	setprop tcc.video.deinterlace.support   0
+
+on property:vold.post_fs_data_done=1
+	start hwprops

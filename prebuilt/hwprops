@@ -1,0 +1,11 @@
+#!/system/bin/sh
+
+while [ ! -b /dev/block/ndda ]; do
+    sleep 1;
+done
+
+# Setup WIFI MAC
+tccfactorydata -w > /data/softmac
+
+# Setup Serial number
+setprop ro.serialno `tccfactorydata -s`

@@ -1,0 +1,21 @@
+#
+# system.prop for em102
+#
+
+rild.libargs=-d /dev/ttyUSB2
+
+tcc.hdmi.720p.fixed=0
+
+ro.media.dec.jpeg.memcap=20000000
+ro.media.dec.vid.max_width=1920
+ro.media.dec.vid.max_height=1088
+ro.media.dec.aud.wma.enabled=1
+ro.media.dec.vid.wmv.enabled=1
+ro.media.dec.aud.ra.enabled=1
+ro.media.dec.vid.rv.enabled=1
+ro.system.hdmi_max_resolution=fullhd
+ro.system.hdmi_active=true
+ro.system.hdmi_portable=true
+
+rild.libpath=/system/lib/libhuaweigeneric-ril.so
+keyguard.no_require_sim=1
