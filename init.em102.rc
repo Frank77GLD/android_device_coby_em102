@@ -56,11 +56,6 @@ on boot
 
 #	setprop ro.kernel.android.gps tcc-uart5
 
-	# Collect ramconsole data
-	copy /proc/last_kmsg /data/dontpanic/last_kmsg
-	chown root log /data/dontpanic/last_kmsg
-	chmod 0640 /data/dontpanic/last_kmsg
-
 service hwprops /system/bin/hwprops
 	class main
 	user root
