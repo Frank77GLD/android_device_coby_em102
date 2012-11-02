@@ -27,7 +27,7 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
 TARGET_NO_BOOTLOADER := true
 
 BOARD_KERNEL_BASE := 0x40000000
-BOARD_PAGE_SIZE := 0x00002000
+BOARD_KERNEL_PAGESIZE := 8192
 BOARD_KERNEL_CMDLINE := console=ttyTCC,115200n8
 
 # Define kernel config for inline building
