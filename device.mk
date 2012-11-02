@@ -122,7 +122,8 @@ PRODUCT_COPY_FILES += \
 	device/coby/em102/vold.fstab:system/etc/vold.fstab
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1
+	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1 \
+	dalvik.vm.dexopt-data-only=1
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 	persist.sys.vold.switchexternal=1
