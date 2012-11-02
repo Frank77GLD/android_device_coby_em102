@@ -50,10 +50,9 @@ BOARD_HAS_SDCARD_INTERNAL := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/ndda1
 BOARD_SDCARD_DEVICE_SECONDARY := /dev/block/mmcblk0p1
 BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/ndda1
-BOARD_VOLD_MAX_PARTITIONS := 16
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+BOARD_VOLD_MAX_PARTITIONS := 8
 
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/usb_mass_storage/lun%d/file"
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00A00000
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00A00000
@@ -76,7 +75,7 @@ BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 
 ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 
-BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file"
+BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/coby/em102/recovery/recovery_keys.c
 
