@@ -17,21 +17,13 @@ int device_toggle_display(volatile char* key_pressed, int key_code) {
 int device_handle_key(int key_code, int visible) {
     if (visible) {
         switch (key_code) {
-            case 114:
             case 139:
                 return HIGHLIGHT_DOWN;
 
-            case 115:
             case 102:
                 return HIGHLIGHT_UP;
 
-            case 217:
-                return SELECT_ITEM;
-
-            case 158:
-                    return GO_BACK;
-
-            case 116:
+            case 107:
                 if (ui_get_showing_back_button()) {
                     return SELECT_ITEM;
                 }
