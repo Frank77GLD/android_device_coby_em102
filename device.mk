@@ -36,6 +36,8 @@ PRODUCT_COPY_FILES += \
 # regular modules
 PRODUCT_COPY_FILES += \
 	device/coby/em102/prebuilt/modules/ufsd.ko:system/lib/modules/ufsd.ko \
+	device/coby/em102/prebuilt/modules/ehci-hcd.ko:system/lib/modules/ehci-hcd.ko \
+	device/coby/em102/prebuilt/modules/ohci-hcd.ko:system/lib/modules/ohci-hcd.ko \
 	device/coby/em102/prebuilt/modules/viqe.ko:system/lib/modules/viqe.ko
 
 PRODUCT_COPY_FILES += \
